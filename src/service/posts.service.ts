@@ -67,7 +67,6 @@ export const getAllPostsSupabase = async (
   search: string
 ): Promise<PaginatedPostsResponse> => {
   const { data: { session } } = await supabase.auth.getSession();
-  console.log(search)
   const { data: posts, error, count } = await supabase
       .from("Posts")
       .select('*', { count: "exact" })

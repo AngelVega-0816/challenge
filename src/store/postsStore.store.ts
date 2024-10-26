@@ -83,9 +83,6 @@ const usePostsStore = create<TypePostsStore>((set, get) => ({
             set({updatedPosts: updatedArr})
             updatePostsFromUpload()
           } else {
-            // const updatedPostsArr = posts.some(post => post.id === res.id)
-            // ? posts.map(post => (post.id === res.id ? res : post))
-            // : [...posts, res];
             set((prev) => ({updatedPosts: prev.updatedPosts.concat(res)}))
             updatePostsFromUpload()
           }

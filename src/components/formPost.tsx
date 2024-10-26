@@ -37,7 +37,6 @@ const FormPost = () => {
     }
     if (!error) {
       setRequest((prev) => ({ ...prev, loading: true }));
-      console.log(post);
       if (typeForm === "create" && user) {
         createPostStore({
           title: formData.title,
