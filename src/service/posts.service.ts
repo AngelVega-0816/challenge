@@ -63,15 +63,17 @@ type PaginatedPostsResponse = {
 
 export const getAllPostsSupabase = async (
   page: number,
-  pageSize: number
+  pageSize: number,
+  search: string
 ): Promise<PaginatedPostsResponse> => {
   const { data: { session } } = await supabase.auth.getSession();
-
+  console.log(search)
   const { data: posts, error, count } = await supabase
-    .from("Posts")
-    .select('*', { count: "exact" })
-    .eq('userId', session?.user?.id)
-    .range((page - 1) * pageSize, page * pageSize - 1);
+      .from("Posts")
+      .select('*', { count: "exact" })
+      .eq('userId', session?.user?.id)
+      .or(`title.ilike.%${search}%,body.ilike.%${search}%`)
+      .range((page - 1) * pageSize, page * pageSize - 1)
 
   if (error) {
     console.error("Error al obtener los posts:", error);
@@ -86,30 +88,6 @@ export const getAllPostsSupabase = async (
   };
 };
 
-// export const getPaginatedPostsSupabase = async (page: number, pageSize: number): Promise<PaginatedPostsResponse> => {
-//   const { data: { session } } = await supabase.auth.getSession();
-
-//   // Consultar los posts para la página específica
-//   const { data: posts, error, count } = await supabase
-//     .from("Posts")
-//     .select('*', { count: "exact" }) // 'count: "exact"' devuelve el conteo total de filas
-//     .eq('userId', session?.user?.id)
-//     .range((page - 1) * pageSize, page * pageSize - 1);
-
-//   if (error) {
-//     console.error("Error al obtener los posts:", error);
-//     return { posts: [], totalPages: 0 };
-//   }
-
-//   // Calcular el número total de páginas
-//   const totalPages = count ? Math.ceil(count / pageSize) : 0;
-
-//   return {
-//     posts: posts || [],
-//     totalPages,
-//   };
-// };
-
 export const searchPosts = async (limitPerPage: number, searchString: string) => {
   const {data} = await axios.get<TypePost[]>(`${baseApiUrl}posts?q=${searchString}`);
   const totalPosts = data.length;
@@ -121,9 +99,6 @@ export const searchPosts = async (limitPerPage: number, searchString: string) =>
 export const countTotalPosts = async (search: string = ""): Promise<number> => {
   try {
     const { data } = await axios.get(`${baseApiUrl}posts?q=${search}`);
-    // const totalPosts = data.length;
-    // const totalPages = Math.ceil((totalPostsApi) / limitPerPage);
-
     return data.length;
   } catch (error) {
     console.error(errorMessages.errorGetPosts, error);

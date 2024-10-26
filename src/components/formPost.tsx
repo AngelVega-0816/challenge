@@ -62,10 +62,6 @@ const FormPost = () => {
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    // changeInputValues({
-    //   ...formValues,
-    //   [event.target.name]: event.target.value,
-    // });
     setFormData((prev) => ({
       ...prev,
       [event.target.name]: event.target.value,

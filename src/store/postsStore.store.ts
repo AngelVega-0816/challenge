@@ -55,16 +55,16 @@ const usePostsStore = create<TypePostsStore>((set, get) => ({
   }
   },
   getPostsStore: async () => {
-    const {postsTypeDisplay, currentPage, limitPerPage, updatePostsFromUpload} = get();
+    const {postsTypeDisplay, currentPage, limitPerPage, updatePostsFromUpload, searchCriteria, countTotalPostsStore} = get();
     set({uploaded : false})
     if (postsTypeDisplay === "api") {
-      await getAllPosts(currentPage, limitPerPage).then(posts => 
+      await getAllPosts(currentPage, limitPerPage, searchCriteria).then(posts => {
         set({posts})
-      ).finally(() => set({uploaded : true}))
+        countTotalPostsStore()
+      }).finally(() => set({uploaded : true}))
     } else {
-      await getAllPostsSupabase(currentPage, limitPerPage).then((res) => {
+      await getAllPostsSupabase(currentPage, limitPerPage, searchCriteria).then((res) => {
         if (res) set({posts: res.posts, totalPages: res.totalPages})
-        console.log("entra", res)
       }).finally(() => set({uploaded: true}))
     }
     updatePostsFromUpload()
@@ -109,7 +109,7 @@ const usePostsStore = create<TypePostsStore>((set, get) => ({
   countTotalPostsStore: async () => {
     const {searchCriteria, limitPerPage} = get()
       await countTotalPosts(searchCriteria).then(totalPosts => {
-        set({totalPosts, totalPages: totalPosts / limitPerPage})
+        set({totalPosts, totalPages: Math.ceil(totalPosts / limitPerPage)})
       })
   },
   setCurrentPage: (currentPage) => {
