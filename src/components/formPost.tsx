@@ -48,14 +48,21 @@ const FormPost = () => {
             setRequest((prev) => ({ ...prev, showSuccess: true }));
             setTimeout(() => {
               setRequest((prev) => ({ ...prev, showSuccess: false }));
+              setShowModal();
             }, 2000);
           })
           .finally(() => setRequest((prev) => ({ ...prev, loading: false })));
         setError("");
       } else if (post?.id) {
-        updatePostStore({ ...post, ...formData }).finally(() =>
-          setRequest((prev) => ({ ...prev, loading: false }))
-        );
+        updatePostStore({ ...post, ...formData })
+          .then(() => {
+            setRequest((prev) => ({ ...prev, showSuccess: true }));
+            setTimeout(() => {
+              setRequest((prev) => ({ ...prev, showSuccess: false }));
+              setShowModal();
+            }, 2000);
+          })
+          .finally(() => setRequest((prev) => ({ ...prev, loading: false })));
       }
     }
   };
@@ -136,7 +143,7 @@ const FormPost = () => {
             </Typography>
           )}
           <LoadingButton type="submit" loading={request.loading}>
-            Crear
+            {typeForm}
           </LoadingButton>
         </Stack>
       </Fade>
