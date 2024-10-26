@@ -6,16 +6,11 @@ import { useEffect } from "react";
 import SearchInput from "../components/searchInput";
 import FormPost from "../components/formPost";
 import Pagination from "../components/pagination";
-import CustomSwitch from "../components/customSwitch";
+import ToggleTypePosts from "../sections/homeSections/toggleTypePosts";
 
 const Home = () => {
-  const {
-    uploaded,
-    getPostsStore,
-    setPostsTypeDisplay,
-    postsTypeDisplay,
-    countTotalPostsStore,
-  } = usePostsStore();
+  const { uploaded, getPostsStore, postsTypeDisplay, countTotalPostsStore } =
+    usePostsStore();
 
   useEffect(() => {
     getPostsStore();
@@ -25,30 +20,25 @@ const Home = () => {
     countTotalPostsStore();
   }, [postsTypeDisplay]);
 
-  const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const type = event.target.checked ? "created" : "api";
-    console.log("TYPE =>", type);
-    setPostsTypeDisplay(type);
-  };
-
   return (
-    <Stack>
-      <>
-        <CustomSpeedDial />
+    <>
+      <CustomSpeedDial />
+      <Stack
+        direction="column"
+        justifyContent="space-between"
+        alignItems="center"
+        minHeight="100vh"
+        maxWidth={1700}
+      >
         <FormPost />
         <SearchInput />
         {uploaded ? <GroupCards /> : <Typography>Loading...</Typography>}
-        <Pagination />
-        <Stack direction="row" alignItems="center" margin="auto">
-          <Typography>Post API</Typography>
-          <CustomSwitch
-            checked={postsTypeDisplay === "created"}
-            onChange={handleToggle}
-          />
-          <Typography>Post Created</Typography>
+        <Stack justifyContent="center">
+          <Pagination />
+          <ToggleTypePosts />
         </Stack>
-      </>
-    </Stack>
+      </Stack>
+    </>
   );
 };
 

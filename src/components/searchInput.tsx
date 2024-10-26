@@ -8,7 +8,7 @@ const SearchInput = () => {
   const { setSearchCriteria } = usePostsStore();
 
   return (
-    <Stack direction="row" margin="auto">
+    <Stack direction="row" mx="auto">
       <TextField
         placeholder="Search..."
         onChange={(e) => setVal(e.target.value)}
