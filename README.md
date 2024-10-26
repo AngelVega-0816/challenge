@@ -1,50 +1,50 @@
-# React + TypeScript + Vite
+## Challenge ELdar
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto es una aplicación creada con React y TypeScript usando Vite. Incluye una integración con Supabase y JSONPlaceholder. Supabase se usa para autenticación de usuarios, roles y para almacenar posts, mientras que JSONPlaceholder se utiliza para traer datos simulados de posts.
 
-Currently, two official plugins are available:
+## Estructura del Proyecto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+El proyecto está organizado de la siguiente manera:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+├── public
+├── src
+│   ├── components # Componentes reutilizables de la aplicación
+│   ├── pages # Páginas principales de la aplicación
+│   ├── section # Secciones de las páginas
+│   ├── service # Servicios de conexión a Supabase y JSONPlaceholder
+│   ├── store # Stores de Zustand para gestionar el estado global
+│   ├── theme # Themes de MUI
+│   ├── utils # Misc
+├── .env # Variables de entorno
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Instrucciones para iniciar la aplicación
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+1. Clona el repositorio desde GitHub:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+git clone https://github.com/AngelVega-0816/challenge.git
 ```
+
+2. Accede al directorio del proyecto:
+
+```bash
+cd challenge
+npm install
+npm run dev
+```
+
+## Variables de Entorno
+
+Asegúrate de configurar las siguientes variables de entorno en tu archivo `.env`:
+
+```bash
+VITE_API_URL="https://jsonplaceholder.typicode.com/"
+VITE_SUPABASE_URL="https://***.supabase.co"
+VITE_SUPABASE_ANON_KEY="xxx"
+```
+
+- **VITE_API_URL**: URL base para la API de JSONPlaceholder, utilizada para obtener datos de ejemplo.
+- **VITE_SUPABASE_URL**: URL del proyecto en Supabase, necesaria para la conexión a la base de datos y autenticación.
+- **VITE_SUPABASE_ANON_KEY**: Clave anónima para autenticar las solicitudes a Supabase
