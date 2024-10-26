@@ -10,10 +10,10 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         containedPrimary: {
-          backgroundColor: palette.primary.main, // Establece el background para primary
-          color: palette.text.main, // Establece el color del texto
+          backgroundColor: palette.primary.main,
+          color: palette.text.main,
           '&:hover': {
-            backgroundColor: palette.primary.secondary, // Establece el color para el hover
+            backgroundColor: palette.primary.secondary,
           },
         },
       },
